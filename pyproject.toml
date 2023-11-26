@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "slip"
+version = "0.1.0"
+description = "SLIP is a sandbox environment for engineering protein sequences with synthetic fitness functions."
+authors = ["Your Name <you@example.com>"]
+license = "n"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+dependencies = [
+  "absl-py",
+  "ipykernel",
+  "numpy",
+  "pandas",
+  "scikit-learn",
+  "scipy",
+]

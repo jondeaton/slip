@@ -1,7 +1,0 @@
-absl-py
-ipykernel
-numpy
-pandas
-scikit-learn
-scipy
-tensorflow
