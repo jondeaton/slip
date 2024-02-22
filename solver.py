@@ -22,8 +22,9 @@ from typing import Optional, Sequence
 import numpy as np
 import pandas as pd
 
-import sampling
-import utils
+from . import sampling, utils
+# import sampling
+# import utils
 
 
 class Solver(abc.ABC):

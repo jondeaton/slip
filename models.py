@@ -20,7 +20,6 @@ from typing import Callable, Dict
 
 from sklearn import ensemble
 from sklearn import linear_model
-import tensorflow as tf
 
 
 class KerasModelWrapper:
@@ -61,62 +60,62 @@ class KerasModelWrapper:
     # pylint: enable=invalid-name
 
 
-def build_cnn_model(sequence_length: int,
-                    vocab_size: int,
-                    num_filters: int,
-                    kernel_size: int,
-                    hidden_size: int,
-                    adam_learning_rate: float):
-    """Returns a 1D CNN model.
-
-    This model consists of 3 layers of 1D convs, followed by a dense layer.
-    The optimizer is configured to be Adam.
-
-    For example, for an input sequence of length 118, with vocab size 20, 32 filters,
-    kernel_size=5, hidden_size=64, model.summary() returns:
-
-      Layer (type)                 Output Shape              Param #
-    =================================================================
-    conv1d_78 (Conv1D)           (None, 118, 32)           3232
-    _________________________________________________________________
-    conv1d_79 (Conv1D)           (None, 118, 32)           5152
-    _________________________________________________________________
-    conv1d_80 (Conv1D)           (None, 118, 32)           5152
-    _________________________________________________________________
-    flatten_24 (Flatten)         (None, 3776)              0
-    _________________________________________________________________
-    dense_53 (Dense)             (None, 64)                241728
-    _________________________________________________________________
-    dropout_15 (Dropout)         (None, 64)                0
-    _________________________________________________________________
-    dense_54 (Dense)             (None, 1)                 65
-    =================================================================
-    Total params: 255,329
-    Trainable params: 255,329
-    Non-trainable params: 0
-
-    Args:
-      sequence_length: The input sequence length.
-      vocab_size: The dimension of the 1-hot encoding.
-    """
-    model = tf.keras.models.Sequential()
-    input_shape = (sequence_length, vocab_size)
-    dropout_prob = 0.25
-
-    model.add(tf.keras.layers.Conv1D(num_filters, kernel_size, activation='relu', input_shape=input_shape, padding='same'))
-    model.add(tf.keras.layers.Conv1D(num_filters, kernel_size, activation='relu', padding='same'))
-    model.add(tf.keras.layers.Conv1D(num_filters, kernel_size, activation='relu', padding='same'))
-    model.add(tf.keras.layers.Flatten())
-    model.add(tf.keras.layers.Dense(hidden_size, activation='relu'))
-    model.add(tf.keras.layers.Dropout(dropout_prob, seed=0))
-    model.add(tf.keras.layers.Dense(1))
-    model.summary()
-
-    model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=adam_learning_rate),
-        loss='mse',
-        metrics=['mse'])
-    return model
+# def build_cnn_model(sequence_length: int,
+#                     vocab_size: int,
+#                     num_filters: int,
+#                     kernel_size: int,
+#                     hidden_size: int,
+#                     adam_learning_rate: float):
+#     """Returns a 1D CNN model.
+#
+#     This model consists of 3 layers of 1D convs, followed by a dense layer.
+#     The optimizer is configured to be Adam.
+#
+#     For example, for an input sequence of length 118, with vocab size 20, 32 filters,
+#     kernel_size=5, hidden_size=64, model.summary() returns:
+#
+#       Layer (type)                 Output Shape              Param #
+#     =================================================================
+#     conv1d_78 (Conv1D)           (None, 118, 32)           3232
+#     _________________________________________________________________
+#     conv1d_79 (Conv1D)           (None, 118, 32)           5152
+#     _________________________________________________________________
+#     conv1d_80 (Conv1D)           (None, 118, 32)           5152
+#     _________________________________________________________________
+#     flatten_24 (Flatten)         (None, 3776)              0
+#     _________________________________________________________________
+#     dense_53 (Dense)             (None, 64)                241728
+#     _________________________________________________________________
+#     dropout_15 (Dropout)         (None, 64)                0
+#     _________________________________________________________________
+#     dense_54 (Dense)             (None, 1)                 65
+#     =================================================================
+#     Total params: 255,329
+#     Trainable params: 255,329
+#     Non-trainable params: 0
+#
+#     Args:
+#       sequence_length: The input sequence length.
+#       vocab_size: The dimension of the 1-hot encoding.
+#     """
+#     model = tf.keras.models.Sequential()
+#     input_shape = (sequence_length, vocab_size)
+#     dropout_prob = 0.25
+#
+#     model.add(tf.keras.layers.Conv1D(num_filters, kernel_size, activation='relu', input_shape=input_shape, padding='same'))
+#     model.add(tf.keras.layers.Conv1D(num_filters, kernel_size, activation='relu', padding='same'))
+#     model.add(tf.keras.layers.Conv1D(num_filters, kernel_size, activation='relu', padding='same'))
+#     model.add(tf.keras.layers.Flatten())
+#     model.add(tf.keras.layers.Dense(hidden_size, activation='relu'))
+#     model.add(tf.keras.layers.Dropout(dropout_prob, seed=0))
+#     model.add(tf.keras.layers.Dense(1))
+#     model.summary()
+#
+#     model.compile(
+#         optimizer=tf.keras.optimizers.Adam(learning_rate=adam_learning_rate),
+#         loss='mse',
+#         metrics=['mse'])
+#     return model
 
 
 def build_linear_model(model_kwargs):
@@ -135,29 +134,29 @@ def build_linear_model(model_kwargs):
     return model, flatten_inputs
 
 
-def build_cnn(sequence_length, vocab_size, model_kwargs):
-    default_kwargs = {
-        'cnn_batch_size': 64,
-        'cnn_num_epochs': 500,
-        'cnn_num_filters': 32,
-        'cnn_kernel_size': 5,
-        'cnn_hidden_size': 64,
-        'cnn_adam_learning_rate': 0.0001
-    }
-
-    kwargs = default_kwargs.copy()
-    for key in default_kwargs.keys():
-        if key in model_kwargs:
-            kwargs[key] = model_kwargs[key]
-    build_model = functools.partial(build_cnn_model,
-                                    num_filters=kwargs['cnn_num_filters'],
-                                    kernel_size=kwargs['cnn_kernel_size'],
-                                    hidden_size=kwargs['cnn_hidden_size'],
-                                    adam_learning_rate=kwargs['cnn_adam_learning_rate'])
-    fit_kwargs = {'batch_size': kwargs['cnn_batch_size'], 'epochs': kwargs['cnn_num_epochs']}
-    model = KerasModelWrapper(build_model, sequence_length, vocab_size, fit_kwargs)
-    flatten_inputs = False
-    return model, flatten_inputs
+# def build_cnn(sequence_length, vocab_size, model_kwargs):
+#     default_kwargs = {
+#         'cnn_batch_size': 64,
+#         'cnn_num_epochs': 500,
+#         'cnn_num_filters': 32,
+#         'cnn_kernel_size': 5,
+#         'cnn_hidden_size': 64,
+#         'cnn_adam_learning_rate': 0.0001
+#     }
+#
+#     kwargs = default_kwargs.copy()
+#     for key in default_kwargs.keys():
+#         if key in model_kwargs:
+#             kwargs[key] = model_kwargs[key]
+#     build_model = functools.partial(build_cnn_model,
+#                                     num_filters=kwargs['cnn_num_filters'],
+#                                     kernel_size=kwargs['cnn_kernel_size'],
+#                                     hidden_size=kwargs['cnn_hidden_size'],
+#                                     adam_learning_rate=kwargs['cnn_adam_learning_rate'])
+#     fit_kwargs = {'batch_size': kwargs['cnn_batch_size'], 'epochs': kwargs['cnn_num_epochs']}
+#     model = KerasModelWrapper(build_model, sequence_length, vocab_size, fit_kwargs)
+#     flatten_inputs = False
+#     return model, flatten_inputs
 
 
 def get_model(model_name,

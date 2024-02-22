@@ -26,16 +26,8 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 from sklearn import metrics as skm
-import tensorflow as tf
 
-import epistasis_selection
-import metrics
-import models
-import potts_model
-import sampling
-import solver
-import tuning
-import utils
+from . import metrics ,models ,potts_model ,sampling ,solver ,tuning ,utils
 
 
 def get_fitness_df(sequences: np.ndarray,
@@ -302,7 +294,6 @@ def run_regression_experiment(
     # Keras reproducibility
     np.random.seed(model_random_seed)
     python_random.seed(model_random_seed)
-    tf.random.set_seed(model_random_seed)
 
     # Train model.
     print('Training model...')
@@ -385,7 +376,6 @@ def run_design_experiment(
     # Keras reproducibility
     np.random.seed(model_random_seed)
     python_random.seed(model_random_seed)
-    tf.random.set_seed(model_random_seed)
 
     # MBO
     sequence_length = len(landscape.wildtype_sequence)

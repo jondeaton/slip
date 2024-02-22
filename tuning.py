@@ -23,10 +23,11 @@ import pandas as pd
 import numpy as np
 from scipy.special import comb
 
-import potts_model
-import sampling
-import experiment
-import utils
+from . import potts_model, sampling, experiment, utils
+# import potts_model
+# import sampling
+# import experiment
+# import utils
 
 
 def get_adaptive_single_fraction(landscape: potts_model.PottsModel) -> float:

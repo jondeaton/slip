@@ -23,7 +23,7 @@ from typing import Callable, Sequence, Tuple, List, NewType
 
 import numpy as np
 
-import sampling
+from . import sampling
 
 Mutation = NewType('Mutation', Tuple[int, int])
 
